@@ -22,7 +22,7 @@
 				"type": "string"
 			}
 		],
-		"name": "createBlockbuy",
+		"name": "createGroupbuy",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -31,19 +31,6 @@
 			}
 		],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getBlockbuys",
-		"outputs": [
-			{
-				"internalType": "address[]",
-				"name": "_groupBuys",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -83,8 +70,21 @@
 			},
 			{
 				"internalType": "uint256[]",
-				"name": "blockbuyState",
+				"name": "groupBuyState",
 				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getGroupBuys",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "_groupBuys",
+				"type": "address[]"
 			}
 		],
 		"stateMutability": "view",
