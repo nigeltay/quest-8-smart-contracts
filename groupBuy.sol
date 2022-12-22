@@ -56,7 +56,7 @@ contract GroupBuy {
     }
 
     function placeOrder() external payable returns (bool) {
-        // require(msg.value == price);
+
         require(msg.sender != seller);
         require(getGroupBuyState() == GroupBuyState.OPEN); // The auction must be open
         require(hasCurrentBid(msg.sender) == false);
