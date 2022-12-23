@@ -29,8 +29,8 @@ contract GroupBuy {
     address payable[] public buyers; // List of buyers addresses
     uint256 public price; // The starting price for the auction
     address public seller; // Seller's address
-    string public productName;
-    string public productDescription;
+    string public productName; // Name of product
+    string public productDescription; // Description of product
     USDC public USDc;
 
     enum GroupBuyState {
@@ -56,7 +56,6 @@ contract GroupBuy {
     }
 
     function placeOrder() external payable returns (bool) {
-
         require(msg.sender != seller);
         require(getGroupBuyState() == GroupBuyState.OPEN); // The auction must be open
         require(hasCurrentBid(msg.sender) == false);
@@ -85,14 +84,14 @@ contract GroupBuy {
     }
 
     function hasCurrentBid(address buyer) public view returns (bool) {
-        bool hasBuyer = false;
+        bool isBuyer = false;
         for (uint256 i = 0; i < buyers.length; i++) {
             // for each auction
             if (buyers[i] == buyer) {
-                hasBuyer = true;
+                isBuyer = true;
             }
         }
-        return hasBuyer;
+        return isBuyer;
     }
 
     function getAllOrders()
