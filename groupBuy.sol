@@ -38,7 +38,7 @@ contract GroupBuy {
         ENDED
     }
 
-    // Auction constructor
+    // Group buy constructor
     constructor(
         address _seller,
         uint256 _endTime,
@@ -57,7 +57,7 @@ contract GroupBuy {
 
     function placeOrder() external payable returns (bool) {
         require(msg.sender != seller);
-        require(getGroupBuyState() == GroupBuyState.OPEN); // The auction must be open
+        require(getGroupBuyState() == GroupBuyState.OPEN); // The group buy must be open
         require(hasCurrentBid(msg.sender) == false);
         USDc.transferFrom(msg.sender, address(this), price);
 
@@ -69,17 +69,17 @@ contract GroupBuy {
     }
 
     function withdrawFunds() external returns (bool) {
-        require(getGroupBuyState() == GroupBuyState.ENDED); // The auction must be ended by either a direct buy or timeout
-        require(msg.sender == seller); // The auction creator can only withdraw the funds
-        USDc.transfer(seller, price * buyers.length); // Transfers funds to the creator
+        require(getGroupBuyState() == GroupBuyState.ENDED); // The group buy must have ended
+        require(msg.sender == seller); // The group buy seller can only withdraw the funds
+        USDc.transfer(seller, price * buyers.length); // Transfers funds to the seller
         emit WithdrawFunds(); // Emit a withdraw funds event
         emit GroupBuyClosed();
         return true;
     }
 
-    // Get the auction state
     function getGroupBuyState() public view returns (GroupBuyState) {
-        if (block.timestamp >= endTime) return GroupBuyState.ENDED; // The auction is over if the block timestamp is greater than the end timestamp, return ENDED
+        // The auction is over if the block timestamp is greater than the end timestamp, return ENDED
+        if (block.timestamp >= endTime) return GroupBuyState.ENDED;
         return GroupBuyState.OPEN; // Otherwise return OPEN
     }
 

@@ -4,10 +4,11 @@ pragma solidity ^0.8.17;
 import "./groupBuy.sol";
 
 contract GroupBuyManager {
-    uint256 _groupBuyIDCounter; // auction Id counter
-    mapping(uint256 => GroupBuy) public groupBuys; // auctions
+    uint256 _groupBuyIDCounter; // group buy Id counter
+    GroupBuy[] public groupBuys; // Holds the group buy reference objects to the group buy objects
+    mapping(address => uint256) public groupBuysIDs; // maps the groupbuy smart contract addres to its ID
 
-    // create an auction
+    // create an group buy
     function createGroupbuy(
         uint256 _endTime,
         uint256 _price,
@@ -15,7 +16,8 @@ contract GroupBuyManager {
         string calldata _productDescription
     ) external returns (bool) {
         require(_price > 0); // direct buy price must be greater than 0
-        require(_endTime > 5 minutes); // end time must be greater than 5 minutes (setting it to 5 minutes for testing you can set it to 1 days or anything you would like)
+        require(_endTime > 5 minutes);
+        // end time must be greater than 5 minutes
 
         uint256 groupBuyID = _groupBuyIDCounter; // get the current value of the counter
         _groupBuyIDCounter++; // increment the counter
@@ -25,22 +27,23 @@ contract GroupBuyManager {
             _price,
             _productName,
             _productDescription
-        ); // create the auction
-
-        groupBuys[groupBuyID] = groupBuy; // add the auction to the map
+        ); // create the groupbuy
+        groupBuys.push(groupBuy);
+        groupBuysIDs[address(groupBuy)] = groupBuyID; // add the groupbuy to the map
         return true;
     }
 
-    // Return a list of all auctions
+    // Return a list of all group buys
     function getGroupBuys()
         external
         view
         returns (address[] memory _groupBuys)
     {
-        _groupBuys = new address[](_groupBuyIDCounter); // create an array of size equal to the current value of the counter
+        // create an array of size equal to the current value of the counter
+        _groupBuys = new address[](_groupBuyIDCounter);
         for (uint256 i = 0; i < _groupBuyIDCounter; i++) {
-            // for each auction
-            _groupBuys[i] = address(groupBuys[i]); // add the address of the auction to the array
+            // add the address of the group buy to the array
+            _groupBuys[i] = address(groupBuys[i]);
         }
         return _groupBuys; // return the array
     }
@@ -66,14 +69,15 @@ contract GroupBuyManager {
         groupBuyState = new uint256[](_groupBuyList.length);
 
         for (uint256 i = 0; i < _groupBuyList.length; i++) {
-            // for each auction
-            productName[i] = GroupBuy(groupBuys[i]).productName(); // get the direct buy price
-            productDescription[i] = GroupBuy(groupBuys[i]).productDescription(); // get the owner of the auction
-            price[i] = GroupBuy(groupBuys[i]).price(); // get the highest bid
-            seller[i] = GroupBuy(groupBuys[i]).seller(); // get the token id
-            endTime[i] = GroupBuy(groupBuys[i]).endTime(); // get the end time
+            uint256 groupBuyID = groupBuysIDs[_groupBuyList[i]];
+
+            productName[i] = groupBuys[groupBuyID].productName(); // get the direct buy price
+            productDescription[i] = groupBuys[groupBuyID].productDescription(); // get the owner of the auction
+            price[i] = groupBuys[groupBuyID].price(); // get the highest bid
+            seller[i] = groupBuys[groupBuyID].seller(); // get the token id
+            endTime[i] = groupBuys[groupBuyID].endTime(); // get the end time
             groupBuyState[i] = uint256(
-                GroupBuy(groupBuys[i]).getGroupBuyState()
+                groupBuys[groupBuyID].getGroupBuyState()
             ); // get the auction state
         }
 

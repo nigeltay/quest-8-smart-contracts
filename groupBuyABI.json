@@ -2,6 +2,11 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_seller",
+				"type": "address"
+			},
+			{
 				"internalType": "uint256",
 				"name": "_endTime",
 				"type": "uint256"
@@ -22,69 +27,42 @@
 				"type": "string"
 			}
 		],
-		"name": "createGroupbuy",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
 		"stateMutability": "nonpayable",
-		"type": "function"
+		"type": "constructor"
 	},
 	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "GroupBuyClosed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
 		"inputs": [
 			{
-				"internalType": "address[]",
-				"name": "_groupBuyList",
-				"type": "address[]"
+				"indexed": false,
+				"internalType": "address",
+				"name": "newBuyer",
+				"type": "address"
 			}
 		],
-		"name": "getGroupBuyInfo",
-		"outputs": [
-			{
-				"internalType": "string[]",
-				"name": "productName",
-				"type": "string[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "productDescription",
-				"type": "string[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "price",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "address[]",
-				"name": "seller",
-				"type": "address[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "endTime",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "groupBuyState",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+		"name": "NewOrder",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "WithdrawFunds",
+		"type": "event"
 	},
 	{
 		"inputs": [],
-		"name": "getGroupBuys",
+		"name": "USDc",
 		"outputs": [
 			{
-				"internalType": "address[]",
-				"name": "_groupBuys",
-				"type": "address[]"
+				"internalType": "contract USDC",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -98,15 +76,164 @@
 				"type": "uint256"
 			}
 		],
-		"name": "groupBuys",
+		"name": "buyers",
 		"outputs": [
 			{
-				"internalType": "contract GroupBuy",
+				"internalType": "address payable",
 				"name": "",
 				"type": "address"
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "endTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllOrders",
+		"outputs": [
+			{
+				"internalType": "address payable[]",
+				"name": "_buyers",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getGroupBuyState",
+		"outputs": [
+			{
+				"internalType": "enum GroupBuy.GroupBuyState",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "buyer",
+				"type": "address"
+			}
+		],
+		"name": "hasCurrentBid",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "placeOrder",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "price",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "productDescription",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "productName",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "seller",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "startTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "withdrawFunds",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]
