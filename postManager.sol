@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import "./post.sol";
 
-contract GroupBuyManager {
+contract PostManager {
     uint256 postIDCounter;
     Post[] public posts;
     mapping(address => uint256) public postIDs;
