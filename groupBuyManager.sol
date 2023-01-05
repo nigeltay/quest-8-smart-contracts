@@ -48,7 +48,6 @@ contract GroupBuyManager {
         return _groupBuys; // return the array
     }
 
-    // Return the information of each auction address
     function getGroupBuyInfo(address[] calldata _groupBuyList)
         external
         view
@@ -61,8 +60,9 @@ contract GroupBuyManager {
             uint256[] memory groupBuyState
         )
     {
-        endTime = new uint256[](_groupBuyList.length); // create an array of size equal to the length of the passed array
-        price = new uint256[](_groupBuyList.length); // create an array of size equal to the length of the passed array
+        // create an array of size equal to the length of the passed array
+        endTime = new uint256[](_groupBuyList.length);
+        price = new uint256[](_groupBuyList.length);
         seller = new address[](_groupBuyList.length);
         productName = new string[](_groupBuyList.length);
         productDescription = new string[](_groupBuyList.length);
@@ -70,15 +70,17 @@ contract GroupBuyManager {
 
         for (uint256 i = 0; i < _groupBuyList.length; i++) {
             uint256 groupBuyID = groupBuysIDs[_groupBuyList[i]];
-
-            productName[i] = groupBuys[groupBuyID].productName(); // get the direct buy price
-            productDescription[i] = groupBuys[groupBuyID].productDescription(); // get the owner of the auction
-            price[i] = groupBuys[groupBuyID].price(); // get the highest bid
-            seller[i] = groupBuys[groupBuyID].seller(); // get the token id
-            endTime[i] = groupBuys[groupBuyID].endTime(); // get the end time
+            // get the product name
+            productName[i] = groupBuys[groupBuyID].productName();
+            // get the owner of the group buy
+            productDescription[i] = groupBuys[groupBuyID].productDescription();
+            // get the product price
+            price[i] = groupBuys[groupBuyID].price();
+            // get the seller wallet address
+            seller[i] = groupBuys[groupBuyID].seller();
             groupBuyState[i] = uint256(
                 groupBuys[groupBuyID].getGroupBuyState()
-            ); // get the auction state
+            ); // get the group buy state
         }
 
         return (
