@@ -43,18 +43,20 @@ contract PostManager {
         returns (
             address[] memory posterAddress,
             uint256[] memory numberOfLikes,
-            uint256[] memory numberOfComments
+            uint256[] memory numberOfComments,
+            string memory postCID
         )
     {
         posterAddress = new address[](_postList.length);
         numberOfLikes = new uint256[](_postList.length);
         numberOfComments = new uint256[](_postList.length);
+        postCID = CID;
         for (uint256 i = 0; i < _postList.length; i++) {
             uint256 postID = postIDs[_postList[i]];
             posterAddress[i] = posts[postID].poster();
             numberOfLikes[i] = posts[postID].likeListLength();
             numberOfComments[i] = posts[postID].commentListLength();
         }
-        return (posterAddress, numberOfLikes, numberOfComments);
+        return (posterAddress, numberOfLikes, numberOfComments, postCID);
     }
 }

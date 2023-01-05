@@ -92,6 +92,11 @@
 				"internalType": "uint256[]",
 				"name": "numberOfComments",
 				"type": "uint256[]"
+			},
+			{
+				"internalType": "string",
+				"name": "postCID",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
