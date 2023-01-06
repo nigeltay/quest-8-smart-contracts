@@ -15,7 +15,7 @@ contract PostManager {
         Post post = new Post(msg.sender);
         posts.push(post);
         postIDs[address(post)] = postID;
-        _CID = CID;
+        CID = _CID;
         return true;
     }
 
@@ -25,7 +25,7 @@ contract PostManager {
     {
         uint256 postID = postIDs[_postAddress];
         posts[postID].postComment(msg.sender, block.timestamp);
-        _CID = CID;
+        CID = _CID;
         return true;
     }
 
