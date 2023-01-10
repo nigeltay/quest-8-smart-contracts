@@ -3,10 +3,10 @@ pragma solidity ^0.8.17;
 
 contract Post {
     address public poster;
-    mapping(address => bool) public likes; //Map user to true.
-    address[] public likeList;
-    address[] public commentIDs; //Map user to comments.
-    uint256[] public commentTimeStamps; //Map Comment ID to timestamp
+    mapping(address => bool) public upvotes;
+    address[] public upvoteList;
+    address[] public commentIDs;
+    uint256[] public commentTimeStamps;
 
     constructor(address _poster) {
         poster = _poster;
@@ -22,17 +22,17 @@ contract Post {
         return true;
     }
 
-    function likePost() external returns (bool) {
-        if (likes[msg.sender] != true) {
-            likeList.push(msg.sender);
-            emit LikePost(msg.sender);
+    function upvotePost() external returns (bool) {
+        if (upvotes[msg.sender] != true) {
+            upvoteList.push(msg.sender);
+            upvotes[msg.sender] = true;
+            emit UpvotePost(msg.sender);
         }
-        likes[msg.sender] = true;
         return true;
     }
 
-    function likeListLength() public view returns (uint256) {
-        return likeList.length;
+    function upvoteListLength() public view returns (uint256) {
+        return upvoteList.length;
     }
 
     function commentListLength() public view returns (uint256) {
@@ -43,14 +43,14 @@ contract Post {
         public
         view
         returns (
-            address[] memory _likeList,
+            address[] memory _upvoteList,
             address[] memory _commentIDs,
             uint256[] memory _commentTimeStamps
         )
     {
-        return (likeList, commentIDs, commentTimeStamps);
+        return (upvoteList, commentIDs, commentTimeStamps);
     }
 
-    event LikePost(address user);
+    event UpvotePost(address user);
     event PostComment(address user);
 }
