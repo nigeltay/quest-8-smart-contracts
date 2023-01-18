@@ -26,7 +26,7 @@ contract DataDao {
 
     function buyDataSet() external payable returns (bool) {
         require(msg.sender != seller);
-        require(msg.value == price);
+           
         buyers.push(msg.sender);
         amountStored = amountStored + price;
         emit BuyDataset(msg.sender);

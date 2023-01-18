@@ -35,7 +35,7 @@ contract DataDaoManager {
     {
         _dataDaoList = new address[](dataDaoIDCounter);
         for (uint256 i = 0; i < dataDaoIDCounter; i++) {
-            _dataDaoList[i] = address(_dataDaoList[i]);
+            _dataDaoList[i] = address(dataDaoList[i]);
         }
         return _dataDaoList;
     }
