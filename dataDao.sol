@@ -9,6 +9,7 @@ contract DataDao {
     string public CID;
     address[] public buyers;
     uint256 public amountStored;
+    mapping(address => bool) buyersList;
 
     constructor(
         address payable _seller,
@@ -26,8 +27,9 @@ contract DataDao {
 
     function buyDataSet() external payable returns (bool) {
         require(msg.sender != seller);
-           
+        require(msg.value == price);
         buyers.push(msg.sender);
+        buyersList[msg.sender] = true;
         amountStored = amountStored + price;
         emit BuyDataset(msg.sender);
         return true;
@@ -35,7 +37,7 @@ contract DataDao {
 
     function withdrawFunds() external returns (bool) {
         require(msg.sender == seller);
-        seller.transfer(amountStored);
+        seller.transfer(address(this).balance);
         emit WithdrawFunds(amountStored);
         amountStored = 0;
         return true;
@@ -50,7 +52,15 @@ contract DataDao {
             string memory _CID
         )
     {
-        return (buyers, amountStored, CID);
+        _amountStored = address(this).balance;
+        _CID = CID;
+        if (msg.sender != seller) {
+            _amountStored = 0;
+        }
+        if (buyersList[msg.sender] != true) {
+            _CID = "Access Denied! Not a Buyer!";
+        }
+        return (buyers, _amountStored, _CID);
     }
 
     event BuyDataset(address user);
