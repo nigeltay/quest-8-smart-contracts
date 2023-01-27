@@ -6,9 +6,9 @@ contract DataDao {
     string public title;
     string public description;
     uint256 public price;
-    string public CID;
+    string private CID;
     address[] public buyers;
-    uint256 public amountStored;
+    uint256 private amountStored;
     mapping(address => bool) buyersList;
 
     constructor(
