@@ -52,10 +52,10 @@ contract DataDao {
             string memory _CID
         )
     {
-        _amountStored = address(this).balance;
+        _amountStored = 0;
         _CID = CID;
-        if (msg.sender != seller) {
-            _amountStored = 0;
+        if (msg.sender == seller) {
+            _amountStored = address(this).balance;
         }
         if (buyersList[msg.sender] != true) {
             _CID = "Access Denied! Not a Buyer!";
