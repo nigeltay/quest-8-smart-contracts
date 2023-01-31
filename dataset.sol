@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.17;
 
-contract DataDao {
+contract Dataset {
     address payable public seller;
     string public title;
     string public description;
     uint256 public price;
     string private CID;
     address[] public buyers;
-    uint256 private amountStored;
     mapping(address => bool) buyersList;
 
     constructor(
@@ -28,18 +27,18 @@ contract DataDao {
     function buyDataSet() external payable returns (bool) {
         require(msg.sender != seller);
         require(msg.value == price);
+        require(buyersList[msg.sender] != true);
         buyers.push(msg.sender);
         buyersList[msg.sender] = true;
-        amountStored = amountStored + price;
         emit BuyDataset(msg.sender);
         return true;
     }
 
     function withdrawFunds() external returns (bool) {
         require(msg.sender == seller);
-        seller.transfer(address(this).balance);
+        uint256 amountStored = address(this).balance;
         emit WithdrawFunds(amountStored);
-        amountStored = 0;
+        seller.transfer(amountStored);
         return true;
     }
 
