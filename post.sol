@@ -3,8 +3,6 @@ pragma solidity ^0.8.17;
 
 contract Post {
     address public poster;
-    mapping(address => bool) public upvotes;
-    address[] public upvoteList;
     address[] public commentIDs;
     uint256[] public commentTimeStamps;
     string public imageCID;
@@ -30,19 +28,6 @@ contract Post {
         return true;
     }
 
-    function upvotePost() external returns (bool) {
-        if (upvotes[msg.sender] != true) {
-            upvoteList.push(msg.sender);
-            upvotes[msg.sender] = true;
-            emit UpvotePost(msg.sender);
-        }
-        return true;
-    }
-
-    function upvoteListLength() public view returns (uint256) {
-        return upvoteList.length;
-    }
-
     function commentListLength() public view returns (uint256) {
         return commentIDs.length;
     }
@@ -51,12 +36,11 @@ contract Post {
         public
         view
         returns (
-            address[] memory _upvoteList,
             address[] memory _commentIDs,
             uint256[] memory _commentTimeStamps
         )
     {
-        return (upvoteList, commentIDs, commentTimeStamps);
+        return (commentIDs, commentTimeStamps);
     }
 
     event UpvotePost(address user);
