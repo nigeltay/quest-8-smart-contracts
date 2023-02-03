@@ -40,7 +40,17 @@
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "_CID",
+				"name": "_forumCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_imageCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_imageName",
 				"type": "string"
 			}
 		],
@@ -85,7 +95,7 @@
 			},
 			{
 				"internalType": "uint256[]",
-				"name": "numberOfLikes",
+				"name": "numberOfUpvotes",
 				"type": "uint256[]"
 			},
 			{

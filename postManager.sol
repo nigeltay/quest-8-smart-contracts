@@ -9,13 +9,17 @@ contract PostManager {
     mapping(address => uint256) public postIDs;
     string public CID; //Content Identifier
 
-    function createPost(string memory _CID) external returns (bool) {
+    function createPost(
+        string memory _forumCID,
+        string memory _imageCID,
+        string memory _imageName
+    ) external returns (bool) {
         uint256 postID = postIDCounter;
         postIDCounter++;
-        Post post = new Post(msg.sender);
+        Post post = new Post(msg.sender, _imageCID, _imageName);
         posts.push(post);
         postIDs[address(post)] = postID;
-        CID = _CID;
+        CID = _forumCID;
         return true;
     }
 

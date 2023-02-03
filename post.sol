@@ -7,9 +7,17 @@ contract Post {
     address[] public upvoteList;
     address[] public commentIDs;
     uint256[] public commentTimeStamps;
+    string public imageCID;
+    string public imageName;
 
-    constructor(address _poster) {
+    constructor(
+        address _poster,
+        string memory _imageCID,
+        string memory _imageName
+    ) {
         poster = _poster;
+        imageCID = _imageCID;
+        imageName = _imageName;
     }
 
     function postComment(address _commenter, uint256 _timeStamp)
