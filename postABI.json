@@ -5,6 +5,16 @@
 				"internalType": "address",
 				"name": "_poster",
 				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_imageCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_imageName",
+				"type": "string"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -20,7 +30,7 @@
 				"type": "address"
 			}
 		],
-		"name": "LikePost",
+		"name": "PostComment",
 		"type": "event"
 	},
 	{
@@ -33,7 +43,7 @@
 				"type": "address"
 			}
 		],
-		"name": "PostComment",
+		"name": "UpvotePost",
 		"type": "event"
 	},
 	{
@@ -93,11 +103,6 @@
 		"outputs": [
 			{
 				"internalType": "address[]",
-				"name": "_likeList",
-				"type": "address[]"
-			},
-			{
-				"internalType": "address[]",
 				"name": "_commentIDs",
 				"type": "address[]"
 			},
@@ -111,19 +116,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "likeList",
+		"inputs": [],
+		"name": "imageCID",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "string",
 				"name": "",
-				"type": "address"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -131,44 +130,12 @@
 	},
 	{
 		"inputs": [],
-		"name": "likeListLength",
+		"name": "imageName",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "likePost",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "likes",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",

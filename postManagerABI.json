@@ -95,11 +95,6 @@
 			},
 			{
 				"internalType": "uint256[]",
-				"name": "numberOfUpvotes",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256[]",
 				"name": "numberOfComments",
 				"type": "uint256[]"
 			},
