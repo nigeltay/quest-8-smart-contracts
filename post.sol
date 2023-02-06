@@ -43,6 +43,5 @@ contract Post {
         return (commentIDs, commentTimeStamps);
     }
 
-    event UpvotePost(address user);
     event PostComment(address user);
 }
