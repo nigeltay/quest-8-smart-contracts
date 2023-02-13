@@ -5,6 +5,7 @@ contract Dataset {
     address payable public seller;
     string public title;
     string public description;
+    string public category;
     uint256 public price;
     string private CID;
     address[] public buyers;
@@ -15,13 +16,15 @@ contract Dataset {
         string memory _title,
         string memory _description,
         uint256 _price,
-        string memory _CID
+        string memory _CID,
+        string memory _category
     ) {
         seller = _seller;
         title = _title;
         description = _description;
         price = _price;
         CID = _CID;
+        category = _category;
     }
 
     function buyDataSet() external payable returns (bool) {

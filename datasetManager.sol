@@ -12,7 +12,8 @@ contract DatasetManager {
         string memory _title,
         string memory _description,
         uint256 _price,
-        string memory _CID
+        string memory _CID,
+        string memory _category
     ) external returns (bool) {
         uint256 datasetID = datasetIDCounter;
         datasetIDCounter++;
@@ -21,7 +22,8 @@ contract DatasetManager {
             _title,
             _description,
             _price,
-            _CID
+            _CID,
+            _category
         );
         datasetList.push(dataset);
         datasetIDs[address(dataset)] = datasetID;
@@ -47,13 +49,15 @@ contract DatasetManager {
             address[] memory sellerAddress,
             string[] memory title,
             string[] memory description,
-            uint256[] memory price
+            uint256[] memory price,
+            string[] memory category
         )
     {
         sellerAddress = new address[](_datasetList.length);
         title = new string[](_datasetList.length);
         description = new string[](_datasetList.length);
         price = new uint256[](_datasetList.length);
+        category = new string[](_datasetList.length);
 
         for (uint256 i = 0; i < _datasetList.length; i++) {
             uint256 datasetID = datasetIDs[_datasetList[i]];
@@ -61,7 +65,8 @@ contract DatasetManager {
             title[i] = datasetList[datasetID].title();
             description[i] = datasetList[datasetID].description();
             price[i] = datasetList[datasetID].price();
+            category[i] = datasetList[datasetID].category();
         }
-        return (sellerAddress, title, description, price);
+        return (sellerAddress, title, description, price, category);
     }
 }
