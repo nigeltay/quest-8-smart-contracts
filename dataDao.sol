@@ -19,6 +19,10 @@ contract DataDao {
         members.push(msg.sender);
     }
 
+    function checkIfMember() external view returns (bool) {
+        return membersList[msg.sender];
+    }
+
     function joinDataDao() external {
         require(membersList[msg.sender] != true);
         members.push(msg.sender);
@@ -75,19 +79,22 @@ contract DataDao {
         returns (
             string[] memory title,
             string[] memory description,
-            string[] memory status
+            string[] memory status,
+            address[] memory tradingProposalContractAddress
         )
     {
         title = new string[](tradingProposals.length);
         description = new string[](tradingProposals.length);
         status = new string[](tradingProposals.length);
+        tradingProposalContractAddress = new address[](tradingProposals.length);
 
         for (uint256 i = 0; i < tradingProposals.length; i++) {
             title[i] = tradingProposals[i].title();
             description[i] = tradingProposals[i].description();
             status[i] = tradingProposals[i].getStatus();
+            tradingProposalContractAddress[i] = address(tradingProposals[i]);
         }
-        return (title, description, status);
+        return (title, description, status, tradingProposalContractAddress);
     }
 
     function getDetailedTradingProposalInfo(address _tradingProposalList)

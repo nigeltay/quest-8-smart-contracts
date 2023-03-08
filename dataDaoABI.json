@@ -2,17 +2,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_datasetCID",
-				"type": "string"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "int256",
 				"name": "errorCode",
 				"type": "int256"
@@ -96,6 +85,55 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "joinDataDao",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "tradingProposalAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "isYesVote",
+				"type": "bool"
+			}
+		],
+		"name": "vote",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_datasetCID",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "checkIfMember",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -171,16 +209,14 @@
 				"internalType": "string[]",
 				"name": "status",
 				"type": "string[]"
+			},
+			{
+				"internalType": "address[]",
+				"name": "tradingProposalContractAddress",
+				"type": "address[]"
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "joinDataDao",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -251,24 +287,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "tradingProposalAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "bool",
-				"name": "isYesVote",
-				"type": "bool"
-			}
-		],
-		"name": "vote",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]
