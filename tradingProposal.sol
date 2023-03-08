@@ -33,6 +33,10 @@ contract TradingProposal {
         cid = _cid;
     }
 
+    function hasVoted(address _voter) public view returns (bool) {
+        return yesVotersList[_voter] || noVotersList[_voter];
+    }
+
     function vote(address _voter, bool isVoteYes) public {
         require(status == TradingProposalState.VOTING);
         require(yesVotersList[_voter] != true);

@@ -51,6 +51,18 @@ contract DataDao {
         }
     }
 
+    function hasVoted(address tradingProposalAddress)
+        external
+        view
+        returns (bool)
+    {
+        uint256 tradingProposalId = tradingProposalsList[
+            tradingProposalAddress
+        ];
+        TradingProposal tradingProposal = tradingProposals[tradingProposalId];
+        return tradingProposal.hasVoted(msg.sender);
+    }
+
     function vote(address tradingProposalAddress, bool isYesVote) external {
         require(membersList[msg.sender] == true);
         uint256 tradingProposalId = tradingProposalsList[
