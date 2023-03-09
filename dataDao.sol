@@ -48,7 +48,6 @@ contract DataDao {
         require(membersList[msg.sender] != true);
         members.push(msg.sender);
         membersList[msg.sender] = true;
-        emit NewMember(msg.sender, members.length - 1);
     }
 
     function createTradingProposal(
@@ -157,6 +156,4 @@ contract DataDao {
             tradingProposal.listedPrice()
         );
     }
-
-    event NewMember(address memberAddress, uint256 id);
 }
