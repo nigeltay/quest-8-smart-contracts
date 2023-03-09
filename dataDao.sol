@@ -11,12 +11,31 @@ contract DataDao {
     string private datasetCID;
     TradingProposal[] public tradingProposals;
     mapping(address => uint256) public tradingProposalsList;
-    string public test;
 
     constructor(string memory _datasetCID) {
         datasetCID = _datasetCID;
         membersList[msg.sender] = true;
         members.push(msg.sender);
+    }
+
+    function listDataset(address tradingProposalAddress) external {
+        uint256 tradingProposalId = tradingProposalsList[
+            tradingProposalAddress
+        ];
+        TradingProposal tradingProposal = tradingProposals[tradingProposalId];
+        tradingProposal.listDataset(msg.sender);
+    }
+
+    function checkIfDatasetIsListed(address tradingProposalAddress)
+        external
+        view
+        returns (bool)
+    {
+        uint256 tradingProposalId = tradingProposalsList[
+            tradingProposalAddress
+        ];
+        TradingProposal tradingProposal = tradingProposals[tradingProposalId];
+        return tradingProposal.isListed();
     }
 
     function checkIfMember() external view returns (bool) {
@@ -65,6 +84,9 @@ contract DataDao {
 
     function vote(address tradingProposalAddress, bool isYesVote) external {
         require(membersList[msg.sender] == true);
+        MarketTypes.GetDealDataCommitmentReturn
+            memory dealDataCommitment = MarketAPI.getDealDataCommitment(967);
+        require(dealDataCommitment.size > 0);
         uint256 tradingProposalId = tradingProposalsList[
             tradingProposalAddress
         ];

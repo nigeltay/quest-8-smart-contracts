@@ -12,6 +12,7 @@ contract TradingProposal {
     address[] public noVoters;
     mapping(address => bool) public noVotersList;
     string private cid;
+    bool public isListed;
 
     enum TradingProposalState {
         VOTING,
@@ -31,6 +32,12 @@ contract TradingProposal {
         voteThreshold = 2;
         status = TradingProposalState.VOTING;
         cid = _cid;
+    }
+
+    function listDataset(address _lister) public {
+        require(status == TradingProposalState.SUCCESS);
+        require(_lister == proposer);
+        isListed = true;
     }
 
     function hasVoted(address _voter) public view returns (bool) {
