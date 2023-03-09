@@ -13,6 +13,7 @@ contract TradingProposal {
     mapping(address => bool) public noVotersList;
     string private cid;
     bool public isListed;
+    uint256 public listedPrice;
 
     enum TradingProposalState {
         VOTING,
@@ -34,9 +35,10 @@ contract TradingProposal {
         cid = _cid;
     }
 
-    function listDataset(address _lister) public {
+    function listDataset(address _lister, uint256 _price) public {
         require(status == TradingProposalState.SUCCESS);
         require(_lister == proposer);
+        listedPrice = _price;
         isListed = true;
     }
 

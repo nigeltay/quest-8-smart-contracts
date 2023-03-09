@@ -18,12 +18,14 @@ contract DataDao {
         members.push(msg.sender);
     }
 
-    function listDataset(address tradingProposalAddress) external {
+    function listDataset(address tradingProposalAddress, uint256 price)
+        external
+    {
         uint256 tradingProposalId = tradingProposalsList[
             tradingProposalAddress
         ];
         TradingProposal tradingProposal = tradingProposals[tradingProposalId];
-        tradingProposal.listDataset(msg.sender);
+        tradingProposal.listDataset(msg.sender, price);
     }
 
     function checkIfDatasetIsListed(address tradingProposalAddress)
@@ -139,7 +141,8 @@ contract DataDao {
             uint256 _numberOfYesVotes,
             uint256 _numberOfNoVotes,
             uint256 _voteThreshold,
-            string memory _cid
+            string memory _cid,
+            uint256 _listedPrice
         )
     {
         require(membersList[msg.sender] == true);
@@ -150,7 +153,8 @@ contract DataDao {
             tradingProposal.getNumberOfYesVotes(),
             tradingProposal.getNumberOfNoVotes(),
             tradingProposal.voteThreshold(),
-            tradingProposal.getDataSetCID()
+            tradingProposal.getDataSetCID(),
+            tradingProposal.listedPrice()
         );
     }
 
