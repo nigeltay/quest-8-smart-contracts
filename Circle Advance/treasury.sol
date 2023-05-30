@@ -46,7 +46,7 @@ contract Treasury {
     }
 
     function joinTreasury(address _address) external {
-        require(members[_address] = false);
+        require(members[_address] == false);
         membersList.push(_address);
         members[_address] = true;
     }

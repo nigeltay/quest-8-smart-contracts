@@ -96,6 +96,21 @@ contract TreasuryManager {
         return treasuries[treasuryID].hasVoted(_proposalAddress, msg.sender);
     }
 
+    function createWithdrawProposal(
+        address _treasuryAddress,
+        string memory _title,
+        string memory _description,
+        uint256 _withdrawAmount
+    ) external {
+        uint256 treasuryID = treasuryIDs[_treasuryAddress];
+        treasuries[treasuryID].createWithdrawProposal(
+            msg.sender,
+            _title,
+            _description,
+            _withdrawAmount
+        );
+    }
+
     function getProposals(
         address _treasuryAddress
     ) external view returns (address[] memory _proposalAddresses) {
