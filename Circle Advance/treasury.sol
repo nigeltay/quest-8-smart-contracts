@@ -11,10 +11,19 @@ contract Treasury {
     string public description;
     address[] public membersList;
     mapping(address => bool) public members;
+    address public depositAddress;
+    string public depositWalletID;
 
-    constructor(string memory _title, string memory _description) {
+    constructor(
+        string memory _title,
+        string memory _description,
+        address _depositAddress,
+        string memory _walletID
+    ) {
         title = _title;
         description = _description;
+        depositAddress = _depositAddress;
+        depositWalletID = _walletID;
     }
 
     function createWithdrawProposal(
@@ -40,6 +49,10 @@ contract Treasury {
         require(members[_address] = false);
         membersList.push(_address);
         members[_address] = true;
+    }
+
+    function hasJoinedTreasury(address _address) external view returns (bool) {
+        return members[_address];
     }
 
     function voteOnWithdrawProposal(

@@ -10,11 +10,18 @@ contract TreasuryManager {
 
     function createTreasury(
         string memory _title,
-        string memory _description
+        string memory _description,
+        address _depositAddress,
+        string memory _walletID
     ) external {
         uint256 treasuryID = treasuryIDCounter;
         treasuryIDCounter++;
-        Treasury treasury = new Treasury(_title, _description);
+        Treasury treasury = new Treasury(
+            _title,
+            _description,
+            _depositAddress,
+            _walletID
+        );
         treasuries.push(treasury);
         treasuryIDs[address(treasury)] = treasuryID;
     }
@@ -47,6 +54,14 @@ contract TreasuryManager {
             description[i] = treasury.description();
         }
         return (title, description);
+    }
+
+    function hasJoinedTreasury(
+        address _treasuryAddress
+    ) external view returns (bool) {
+        uint256 treasuryID = treasuryIDs[_treasuryAddress];
+        Treasury treasury = treasuries[treasuryID];
+        return treasury.hasJoinedTreasury(msg.sender);
     }
 
     function joinTreasury(address _treasuryAddress) external {

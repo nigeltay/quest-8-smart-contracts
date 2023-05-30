@@ -10,6 +10,16 @@
 				"internalType": "string",
 				"name": "_description",
 				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_depositAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_walletID",
+				"type": "string"
 			}
 		],
 		"name": "createTreasury",
@@ -158,6 +168,25 @@
 				"internalType": "address[]",
 				"name": "_treasuryAddresses",
 				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_treasuryAddress",
+				"type": "address"
+			}
+		],
+		"name": "hasJoinedTreasury",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
