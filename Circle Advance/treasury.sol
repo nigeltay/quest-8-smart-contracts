@@ -62,8 +62,7 @@ contract Treasury {
     ) external {
         require(members[_proposalAddress] == true);
         uint256 proposalID = proposalIDs[_proposalAddress];
-        WithdrawProposal proposal = withdrawProposals[proposalID];
-        proposal.vote(_voter, _isVoteYes);
+        withdrawProposals[proposalID].vote(_voter, _isVoteYes);
     }
 
     function hasVoted(
@@ -71,8 +70,7 @@ contract Treasury {
         address _userAddress
     ) external view returns (bool) {
         uint256 proposalID = proposalIDs[_proposalAddress];
-        WithdrawProposal proposal = withdrawProposals[proposalID];
-        return proposal.hasVoted(_userAddress);
+        return withdrawProposals[proposalID].hasVoted(_userAddress);
     }
 
     function getProposals()

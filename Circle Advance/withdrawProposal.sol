@@ -37,7 +37,6 @@ contract WithdrawProposal {
     }
 
     function hasVoted(address _voter) public view returns (bool) {
-        // require(parent == msg.sender);
         return yesVotersList[_voter] || noVotersList[_voter];
     }
 

@@ -4,7 +4,6 @@ pragma solidity ^0.8.17;
 import "./treasury.sol";
 
 contract TreasuryManager {
-    uint256 treasuryIDCounter;
     Treasury[] public treasuries;
     mapping(address => uint256) public treasuryIDs;
 
@@ -14,8 +13,7 @@ contract TreasuryManager {
         address _depositAddress,
         string memory _walletID
     ) external {
-        uint256 treasuryID = treasuryIDCounter;
-        treasuryIDCounter++;
+        uint256 treasuryID = treasuries.length;
         Treasury treasury = new Treasury(
             _title,
             _description,
@@ -31,8 +29,8 @@ contract TreasuryManager {
         view
         returns (address[] memory _treasuryAddresses)
     {
-        _treasuryAddresses = new address[](treasuryIDCounter);
-        for (uint256 i = 0; i < treasuryIDCounter; i++) {
+        _treasuryAddresses = new address[](treasuries.length);
+        for (uint256 i = 0; i < treasuries.length; i++) {
             _treasuryAddresses[i] = address(treasuries[i]);
         }
         return _treasuryAddresses;
@@ -43,31 +41,38 @@ contract TreasuryManager {
     )
         external
         view
-        returns (string[] memory title, string[] memory description)
+        returns (
+            string[] memory title,
+            string[] memory description,
+            address[] memory depositAddress,
+            string[] memory walletID
+        )
     {
         title = new string[](_treasuryList.length);
         description = new string[](_treasuryList.length);
+        depositAddress = new address[](_treasuryList.length);
+        walletID = new string[](_treasuryList.length);
         for (uint256 i = 0; i < _treasuryList.length; i++) {
             uint256 treasuryID = treasuryIDs[_treasuryList[i]];
             Treasury treasury = treasuries[treasuryID];
             title[i] = treasury.title();
             description[i] = treasury.description();
+            depositAddress[i] = treasury.depositAddress();
+            walletID[i] = treasury.depositWalletID();
         }
-        return (title, description);
+        return (title, description, depositAddress, walletID);
     }
 
     function hasJoinedTreasury(
         address _treasuryAddress
     ) external view returns (bool) {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        Treasury treasury = treasuries[treasuryID];
-        return treasury.hasJoinedTreasury(msg.sender);
+        return treasuries[treasuryID].members(msg.sender);
     }
 
     function joinTreasury(address _treasuryAddress) external {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        Treasury treasury = treasuries[treasuryID];
-        treasury.joinTreasury(msg.sender);
+        treasuries[treasuryID].joinTreasury(msg.sender);
     }
 
     function voteOnWithdrawProposal(
@@ -76,8 +81,7 @@ contract TreasuryManager {
         bool _isVoteYes
     ) external {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        Treasury treasury = treasuries[treasuryID];
-        treasury.voteOnWithdrawProposal(
+        treasuries[treasuryID].voteOnWithdrawProposal(
             msg.sender,
             _proposalAddress,
             _isVoteYes
@@ -89,16 +93,14 @@ contract TreasuryManager {
         address _proposalAddress
     ) external view returns (bool) {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        Treasury treasury = treasuries[treasuryID];
-        return treasury.hasVoted(_proposalAddress, msg.sender);
+        return treasuries[treasuryID].hasVoted(_proposalAddress, msg.sender);
     }
 
     function getProposals(
         address _treasuryAddress
     ) external view returns (address[] memory _proposalAddresses) {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        Treasury treasury = treasuries[treasuryID];
-        return treasury.getProposals();
+        return treasuries[treasuryID].getProposals();
     }
 
     function getProposalOverviewData(
@@ -118,7 +120,6 @@ contract TreasuryManager {
         )
     {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        Treasury treasury = treasuries[treasuryID];
-        return treasury.getProposalData(_proposalList);
+        return treasuries[treasuryID].getProposalData(_proposalList);
     }
 }
