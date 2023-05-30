@@ -30,7 +30,8 @@ contract Treasury {
         address _proposer,
         string memory _title,
         string memory _description,
-        uint256 _withdrawAmount
+        uint256 _withdrawAmount,
+        address _withdrawWallet
     ) external {
         uint256 proposalID = proposalIDCounter;
         proposalIDCounter++;
@@ -39,7 +40,8 @@ contract Treasury {
             _title,
             _description,
             _withdrawAmount,
-            address(this)
+            address(this),
+            _withdrawWallet
         );
         withdrawProposals.push(proposal);
         proposalIDs[address(proposal)] = proposalID;
@@ -59,10 +61,10 @@ contract Treasury {
         address _voter,
         address _proposalAddress,
         bool _isVoteYes
-    ) external {
+    ) external returns (bool) {
         require(members[_proposalAddress] == true);
         uint256 proposalID = proposalIDs[_proposalAddress];
-        withdrawProposals[proposalID].vote(_voter, _isVoteYes);
+        return withdrawProposals[proposalID].vote(_voter, _isVoteYes);
     }
 
     function hasVoted(
@@ -97,7 +99,8 @@ contract Treasury {
             string[] memory status,
             uint256[] memory withdrawAmount,
             uint256[] memory numberOfYesVotes,
-            uint256[] memory numberOfNoVotes
+            uint256[] memory numberOfNoVotes,
+            address[] memory withdrawWallet
         )
     {
         proposerAddress = new address[](_proposalList.length);
@@ -107,6 +110,7 @@ contract Treasury {
         withdrawAmount = new uint256[](_proposalList.length);
         numberOfYesVotes = new uint256[](_proposalList.length);
         numberOfNoVotes = new uint256[](_proposalList.length);
+        withdrawWallet = new address[](_proposalList.length);
         for (uint256 i = 0; i < _proposalList.length; i++) {
             uint256 proposalID = proposalIDs[_proposalList[i]];
             WithdrawProposal proposal = withdrawProposals[proposalID];
@@ -116,6 +120,7 @@ contract Treasury {
             withdrawAmount[i] = proposal.withdrawAmount();
             numberOfYesVotes[i] = proposal.getNumberOfYesVotes();
             numberOfNoVotes[i] = proposal.getNumberOfNoVotes();
+            withdrawWallet[i] = proposal.withdrawWallet();
         }
         return (
             proposerAddress,
@@ -124,7 +129,8 @@ contract Treasury {
             status,
             withdrawAmount,
             numberOfYesVotes,
-            numberOfNoVotes
+            numberOfNoVotes,
+            withdrawWallet
         );
     }
 }

@@ -7,6 +7,7 @@ contract WithdrawProposal {
     string public description;
     uint256 public voteThreshold;
     uint256 public withdrawAmount;
+    address public withdrawWallet;
     WithdrawProposalState public status;
     address[] public yesVoters;
     mapping(address => bool) public yesVotersList;
@@ -25,7 +26,8 @@ contract WithdrawProposal {
         string memory _title,
         string memory _description,
         uint256 _withdrawAmount,
-        address parentAddress
+        address _parentAddress,
+        address _withdrawWallet
     ) {
         proposer = _proposer;
         title = _title;
@@ -33,7 +35,8 @@ contract WithdrawProposal {
         voteThreshold = 2;
         status = WithdrawProposalState.VOTING;
         withdrawAmount = _withdrawAmount;
-        parentContract = parentAddress;
+        parentContract = _parentAddress;
+        withdrawWallet = _withdrawWallet;
     }
 
     function hasVoted(address _voter) public view returns (bool) {

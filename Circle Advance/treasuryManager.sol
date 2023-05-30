@@ -79,13 +79,14 @@ contract TreasuryManager {
         address _treasuryAddress,
         address _proposalAddress,
         bool _isVoteYes
-    ) external {
+    ) external returns (bool) {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        treasuries[treasuryID].voteOnWithdrawProposal(
-            msg.sender,
-            _proposalAddress,
-            _isVoteYes
-        );
+        return
+            treasuries[treasuryID].voteOnWithdrawProposal(
+                msg.sender,
+                _proposalAddress,
+                _isVoteYes
+            );
     }
 
     function hasVoted(
@@ -100,14 +101,16 @@ contract TreasuryManager {
         address _treasuryAddress,
         string memory _title,
         string memory _description,
-        uint256 _withdrawAmount
+        uint256 _withdrawAmount,
+        address _withdrawWallet
     ) external {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
         treasuries[treasuryID].createWithdrawProposal(
             msg.sender,
             _title,
             _description,
-            _withdrawAmount
+            _withdrawAmount,
+            _withdrawWallet
         );
     }
 
@@ -131,7 +134,8 @@ contract TreasuryManager {
             string[] memory status,
             uint256[] memory withdrawAmount,
             uint256[] memory numberOfYesVotes,
-            uint256[] memory numberOfNoVotes
+            uint256[] memory numberOfNoVotes,
+            address[] memory withdrawWallet
         )
     {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
