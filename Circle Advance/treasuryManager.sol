@@ -24,7 +24,7 @@ contract TreasuryManager {
         treasuryIDs[address(treasury)] = treasuryID;
     }
 
-    function getTresuries()
+    function getTreasuries()
         external
         view
         returns (address[] memory _treasuryAddresses)

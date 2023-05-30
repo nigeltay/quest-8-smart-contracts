@@ -200,7 +200,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "getTresuries",
+		"name": "getTreasuries",
 		"outputs": [
 			{
 				"internalType": "address[]",
