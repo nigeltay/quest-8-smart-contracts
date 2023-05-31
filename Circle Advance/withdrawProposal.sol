@@ -13,7 +13,6 @@ contract WithdrawProposal {
     mapping(address => bool) public yesVotersList;
     address[] public noVoters;
     mapping(address => bool) public noVotersList;
-    address private parentContract;
 
     enum WithdrawProposalState {
         VOTING,
@@ -26,7 +25,6 @@ contract WithdrawProposal {
         string memory _title,
         string memory _description,
         uint256 _withdrawAmount,
-        address _parentAddress,
         address _withdrawWallet
     ) {
         proposer = _proposer;
@@ -35,7 +33,6 @@ contract WithdrawProposal {
         voteThreshold = 2;
         status = WithdrawProposalState.VOTING;
         withdrawAmount = _withdrawAmount;
-        parentContract = _parentAddress;
         withdrawWallet = _withdrawWallet;
     }
 
@@ -44,7 +41,6 @@ contract WithdrawProposal {
     }
 
     function vote(address _voter, bool isVoteYes) public returns (bool) {
-        require(parentContract == msg.sender);
         require(status == WithdrawProposalState.VOTING);
         require(yesVotersList[_voter] != true);
         require(noVotersList[_voter] != true);

@@ -41,7 +41,6 @@ contract Treasury {
             _title,
             _description,
             _withdrawAmount,
-            address(this),
             _withdrawWallet
         );
         withdrawProposals.push(proposal);
@@ -63,7 +62,7 @@ contract Treasury {
         address _proposalAddress,
         bool _isVoteYes
     ) external returns (bool) {
-        require(members[_proposalAddress] == true);
+        require(members[_voter] == true);
         uint256 proposalID = proposalIDs[_proposalAddress];
         return withdrawProposals[proposalID].vote(_voter, _isVoteYes);
     }
