@@ -64,26 +64,31 @@ contract TreasuryManager {
     }
 
     function hasJoinedTreasury(
-        address _treasuryAddress
+        address _treasuryAddress,
+        address _userWallet
     ) external view returns (bool) {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        return treasuries[treasuryID].members(msg.sender);
+        return treasuries[treasuryID].members(_userWallet);
     }
 
-    function joinTreasury(address _treasuryAddress) external {
+    function joinTreasury(
+        address _treasuryAddress,
+        address _userWallet
+    ) external {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        treasuries[treasuryID].joinTreasury(msg.sender);
+        treasuries[treasuryID].joinTreasury(_userWallet);
     }
 
     function voteOnWithdrawProposal(
         address _treasuryAddress,
         address _proposalAddress,
-        bool _isVoteYes
+        bool _isVoteYes,
+        address _userWallet
     ) external returns (bool) {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
         return
             treasuries[treasuryID].voteOnWithdrawProposal(
-                msg.sender,
+                _userWallet,
                 _proposalAddress,
                 _isVoteYes
             );
@@ -91,10 +96,11 @@ contract TreasuryManager {
 
     function hasVoted(
         address _treasuryAddress,
-        address _proposalAddress
+        address _proposalAddress,
+        address _userWallet
     ) external view returns (bool) {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
-        return treasuries[treasuryID].hasVoted(_proposalAddress, msg.sender);
+        return treasuries[treasuryID].hasVoted(_proposalAddress, _userWallet);
     }
 
     function createWithdrawProposal(
@@ -102,11 +108,12 @@ contract TreasuryManager {
         string memory _title,
         string memory _description,
         uint256 _withdrawAmount,
-        address _withdrawWallet
+        address _withdrawWallet,
+        address _userWallet
     ) external {
         uint256 treasuryID = treasuryIDs[_treasuryAddress];
         treasuries[treasuryID].createWithdrawProposal(
-            msg.sender,
+            _userWallet,
             _title,
             _description,
             _withdrawAmount,

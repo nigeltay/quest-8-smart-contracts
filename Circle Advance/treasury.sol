@@ -33,6 +33,7 @@ contract Treasury {
         uint256 _withdrawAmount,
         address _withdrawWallet
     ) external {
+        require(_proposer != address(this));
         uint256 proposalID = proposalIDCounter;
         proposalIDCounter++;
         WithdrawProposal proposal = new WithdrawProposal(
