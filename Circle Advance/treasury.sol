@@ -114,6 +114,7 @@ contract Treasury {
         for (uint256 i = 0; i < _proposalList.length; i++) {
             uint256 proposalID = proposalIDs[_proposalList[i]];
             WithdrawProposal proposal = withdrawProposals[proposalID];
+            proposerAddress[i] = proposal.proposer();
             proposalTitle[i] = proposal.title();
             proposalDescription[i] = proposal.description();
             status[i] = proposal.getStatus();
