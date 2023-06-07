@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import "./withdrawProposal.sol";
 
-contract Treasury {
+contract Account {
     uint256 proposalIDCounter;
     WithdrawProposal[] public withdrawProposals;
     mapping(address => uint256) public proposalIDs;
@@ -47,13 +47,13 @@ contract Treasury {
         proposalIDs[address(proposal)] = proposalID;
     }
 
-    function joinTreasury(address _address) external {
+    function joinAccount(address _address) external {
         require(members[_address] == false);
         membersList.push(_address);
         members[_address] = true;
     }
 
-    function hasJoinedTreasury(address _address) external view returns (bool) {
+    function hasJoinedAccount(address _address) external view returns (bool) {
         return members[_address];
     }
 
