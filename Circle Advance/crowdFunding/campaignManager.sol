@@ -79,7 +79,7 @@ contract CampaignManager {
         return campaigns[campaignID].deposit(_depositAmount, msg.sender);
     }
 
-    function deposit(
+    function fund(
         uint256 _refundAmount,
         address _campaignAddress,
         bool _refundToAvax
