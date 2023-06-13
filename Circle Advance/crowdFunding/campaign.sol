@@ -24,26 +24,6 @@ interface USDC {
     ) external returns (bool);
 }
 
-interface ITokenMessenger {
-    // this event will be emitted when `depositForBurn` function is called.
-    event MessageSent(bytes message);
-
-    /**
-    * @param _amount amount of tokens to burn
-    * @param _destinationDomain destination domain
-    * @param _mintRecipient address of mint recipient on destination domain
-    * @param _burnToken address of contract to burn deposited tokens, on local
-    domain
-    * @return _nonce uint64, unique nonce for each burn
-    */
-    function depositForBurn(
-        uint256 _amount,
-        uint32 _destinationDomain,
-        bytes32 _mintRecipient,
-        address _burnToken
-    ) external returns (uint64 _nonce);
-}
-
 contract Campaign {
     address public proposer;
     string public title;
@@ -52,16 +32,11 @@ contract Campaign {
     address[] public contributorAddresses;
     int256[] public contributions;
     mapping(address => bool) contributorList;
-    uint64 public campaignDeadline;
+    uint256 public campaignDeadline;
     CampaignState public status;
     USDC public USDc;
     address usdcAvaxAddress = 0x5425890298aed601595a70AB815c96711a31Bc65;
     address usdcEthAddress = 0x07865c6E87B9F70255377e024ace6630C1Eaa37F;
-    address ethTokenMessengerAddress =
-        0xD0C3da58f55358142b8d3e06C1C30c5C6114EFE8;
-
-    mapping(string => uint32) public circleDestinationDomains;
-    ITokenMessenger public tokenMessenger;
 
     enum CampaignState {
         LIVE,
@@ -74,7 +49,7 @@ contract Campaign {
         string memory _title,
         string memory _description,
         uint256 _targetAmount,
-        uint64 _campaignDeadline
+        uint256 _campaignDeadline
     ) {
         require(_campaignDeadline > block.timestamp);
         proposer = _proposer;
@@ -83,10 +58,7 @@ contract Campaign {
         status = CampaignState.LIVE;
         targetAmount = _targetAmount;
         campaignDeadline = _campaignDeadline;
-        circleDestinationDomains["ethereum"] = 0;
-        circleDestinationDomains["avalanche"] = 1;
-        USDc = USDC(usdcAvaxAddress); //USDC on Avalanche
-        tokenMessenger = ITokenMessenger(ethTokenMessengerAddress);
+        USDc = USDC(usdcEthAddress);
     }
 
     function deposit(uint256 _depositAmount, address _depositAddress) external {
@@ -109,31 +81,15 @@ contract Campaign {
         contributions.push(-int(_refundAmount));
     }
 
-    function refundToAvax(
-        uint256 _refundAmount,
-        address _refundAddress
-    ) external {
-        require(contributorList[_refundAddress]);
-        require(status == CampaignState.LIVE);
-
-        USDc.approve(ethTokenMessengerAddress, _refundAmount);
-        tokenMessenger.depositForBurn(
-            _refundAmount,
-            this.circleDestinationDomains("avalanche"),
-            bytes32(uint256(uint160(_refundAddress))),
-            address(USDc)
-        );
-        contributorAddresses.push(msg.sender);
-        contributions.push(-int(_refundAmount));
-    }
-
-    function getContributionAmount() external view returns (uint256) {
-        if (contributorList[msg.sender] == false) {
+    function getContributionAmount(
+        address _userWallet
+    ) external view returns (uint256) {
+        if (contributorList[_userWallet] == false) {
             return 0;
         }
         int256 totalContributions = 0;
         for (uint256 i = 0; i < contributorAddresses.length; i++) {
-            if (contributorAddresses[i] == msg.sender) {
+            if (contributorAddresses[i] == _userWallet) {
                 totalContributions = totalContributions + contributions[i];
             }
         }
@@ -141,9 +97,9 @@ contract Campaign {
     }
 
     function hasContributed(
-        address walletAddress
+        address _walletAddress
     ) external view returns (bool) {
-        return contributorList[walletAddress];
+        return contributorList[_walletAddress];
     }
 
     function getStatus() external view returns (string memory _status) {

@@ -11,7 +11,7 @@ contract CampaignManager {
         string memory _title,
         string memory _description,
         uint256 _targetAmount,
-        uint64 _campaignDeadline
+        uint256 _campaignDeadline
     ) external {
         uint256 campaignID = campaigns.length;
         Campaign campaign = new Campaign(
@@ -46,13 +46,17 @@ contract CampaignManager {
             string[] memory title,
             string[] memory description,
             uint256[] memory targetAmount,
-            uint256[] memory currentAmount
+            uint256[] memory currentAmount,
+            uint256[] memory deadline,
+            uint256[] memory userContribution
         )
     {
         title = new string[](_campaignList.length);
         description = new string[](_campaignList.length);
         targetAmount = new uint256[](_campaignList.length);
         currentAmount = new uint256[](_campaignList.length);
+        deadline = new uint256[](_campaignList.length);
+        userContribution = new uint256[](_campaignList.length);
         for (uint256 i = 0; i < _campaignList.length; i++) {
             uint256 campaignID = campaignIDs[_campaignList[i]];
             Campaign campaign = campaigns[campaignID];
@@ -60,8 +64,17 @@ contract CampaignManager {
             description[i] = campaign.description();
             targetAmount[i] = campaign.targetAmount();
             currentAmount[i] = campaign.getTotalContributions();
+            deadline[i] = campaign.campaignDeadline();
+            userContribution[i] = campaign.getContributionAmount(msg.sender);
         }
-        return (title, description, targetAmount, currentAmount);
+        return (
+            title,
+            description,
+            targetAmount,
+            currentAmount,
+            deadline,
+            userContribution
+        );
     }
 
     function hasContributed(
@@ -79,16 +92,8 @@ contract CampaignManager {
         return campaigns[campaignID].deposit(_depositAmount, msg.sender);
     }
 
-    function fund(
-        uint256 _refundAmount,
-        address _campaignAddress,
-        bool _refundToAvax
-    ) external {
+    function refund(uint256 _refundAmount, address _campaignAddress) external {
         uint256 campaignID = campaignIDs[_campaignAddress];
-        if (_refundToAvax) {
-            campaigns[campaignID].refundToAvax(_refundAmount, msg.sender);
-        } else {
-            campaigns[campaignID].refund(_refundAmount, msg.sender);
-        }
+        campaigns[campaignID].refund(_refundAmount, msg.sender);
     }
 }
