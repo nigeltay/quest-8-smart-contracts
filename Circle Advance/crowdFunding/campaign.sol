@@ -75,8 +75,8 @@ contract Campaign {
     function refund(uint256 _refundAmount, address _refundAddress) external {
         require(contributorList[_refundAddress]);
         require(status == CampaignState.LIVE);
-        USDc.approve(_refundAddress, _refundAmount);
-        USDc.transferFrom(address(this), _refundAddress, _refundAmount);
+      
+        USDc.transfer(_refundAddress, _refundAmount);
         contributorAddresses.push(_refundAddress);
         contributions.push(-int(_refundAmount));
     }
