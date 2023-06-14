@@ -127,6 +127,11 @@
 				"internalType": "string[]",
 				"name": "status",
 				"type": "string[]"
+			},
+			{
+				"internalType": "address[]",
+				"name": "proposer",
+				"type": "address[]"
 			}
 		],
 		"stateMutability": "view",

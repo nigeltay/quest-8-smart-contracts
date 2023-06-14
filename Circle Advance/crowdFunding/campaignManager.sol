@@ -49,7 +49,8 @@ contract CampaignManager {
             uint256[] memory currentAmount,
             uint256[] memory deadline,
             uint256[] memory userContribution,
-            string[] memory status
+            string[] memory status,
+            address[] memory proposer
         )
     {
         title = new string[](_campaignList.length);
@@ -59,6 +60,7 @@ contract CampaignManager {
         deadline = new uint256[](_campaignList.length);
         userContribution = new uint256[](_campaignList.length);
         status = new string[](_campaignList.length);
+        proposer = new address[](_campaignList.length);
         for (uint256 i = 0; i < _campaignList.length; i++) {
             uint256 campaignID = campaignIDs[_campaignList[i]];
             Campaign campaign = campaigns[campaignID];
@@ -69,6 +71,7 @@ contract CampaignManager {
             deadline[i] = campaign.campaignDeadline();
             userContribution[i] = campaign.getContributionAmount(msg.sender);
             status[i] = campaign.getStatus();
+            proposer[i] = campaign.proposer();
         }
         return (
             title,
@@ -77,7 +80,8 @@ contract CampaignManager {
             currentAmount,
             deadline,
             userContribution,
-            status
+            status,
+            proposer
         );
     }
 
