@@ -48,7 +48,8 @@ contract CampaignManager {
             uint256[] memory targetAmount,
             uint256[] memory currentAmount,
             uint256[] memory deadline,
-            uint256[] memory userContribution
+            uint256[] memory userContribution,
+            string[] memory status
         )
     {
         title = new string[](_campaignList.length);
@@ -57,6 +58,7 @@ contract CampaignManager {
         currentAmount = new uint256[](_campaignList.length);
         deadline = new uint256[](_campaignList.length);
         userContribution = new uint256[](_campaignList.length);
+        status = new string[](_campaignList.length);
         for (uint256 i = 0; i < _campaignList.length; i++) {
             uint256 campaignID = campaignIDs[_campaignList[i]];
             Campaign campaign = campaigns[campaignID];
@@ -66,6 +68,7 @@ contract CampaignManager {
             currentAmount[i] = campaign.getTotalContributions();
             deadline[i] = campaign.campaignDeadline();
             userContribution[i] = campaign.getContributionAmount(msg.sender);
+            status[i] = campaign.getStatus();
         }
         return (
             title,
@@ -73,7 +76,8 @@ contract CampaignManager {
             targetAmount,
             currentAmount,
             deadline,
-            userContribution
+            userContribution,
+            status
         );
     }
 
@@ -92,8 +96,13 @@ contract CampaignManager {
         return campaigns[campaignID].deposit(_depositAmount, msg.sender);
     }
 
-    function refund(uint256 _refundAmount, address _campaignAddress) external {
+    function refund(address _campaignAddress) external {
         uint256 campaignID = campaignIDs[_campaignAddress];
-        campaigns[campaignID].refund(_refundAmount, msg.sender);
+        campaigns[campaignID].refund(msg.sender);
+    }
+
+    function withdraw(address _campaignAddress) external {
+        uint256 campaignID = campaignIDs[_campaignAddress];
+        campaigns[campaignID].withdraw(msg.sender);
     }
 }

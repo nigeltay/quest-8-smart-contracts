@@ -41,7 +41,8 @@ contract Campaign {
     enum CampaignState {
         LIVE,
         SUCCESS,
-        ENDED
+        ENDED,
+        CLOSED
     }
 
     constructor(
@@ -63,27 +64,41 @@ contract Campaign {
 
     function deposit(uint256 _depositAmount, address _depositAddress) external {
         require(campaignDeadline > block.timestamp);
-        require(status == CampaignState.LIVE);
         require(USDc.balanceOf(_depositAddress) > _depositAmount);
 
         USDc.transferFrom(_depositAddress, address(this), _depositAmount);
         contributorAddresses.push(_depositAddress);
         contributions.push(int(_depositAmount));
         contributorList[_depositAddress] = true;
+        if (USDc.balanceOf(address(this)) > targetAmount) {
+            status = CampaignState.SUCCESS;
+        }
     }
 
-    function refund(uint256 _refundAmount, address _refundAddress) external {
+    function refund(address _refundAddress) external {
         require(contributorList[_refundAddress]);
         require(status == CampaignState.LIVE);
-      
-        USDc.transfer(_refundAddress, _refundAmount);
+        require(campaignDeadline > block.timestamp);
+        uint256 userContribution = getContributionAmount(_refundAddress);
+        require(userContribution > 0);
+        USDc.transfer(_refundAddress, userContribution);
         contributorAddresses.push(_refundAddress);
-        contributions.push(-int(_refundAmount));
+        contributions.push(-int(userContribution));
+        contributorList[_refundAddress] = false;
+    }
+
+    function withdraw(address _withdrawAddress) external {
+        require(proposer == _withdrawAddress);
+        require(block.timestamp > campaignDeadline);
+
+        USDc.transfer(proposer, USDc.balanceOf(address(this)));
+
+        status = CampaignState.CLOSED;
     }
 
     function getContributionAmount(
         address _userWallet
-    ) external view returns (uint256) {
+    ) public view returns (uint256) {
         if (contributorList[_userWallet] == false) {
             return 0;
         }
@@ -107,8 +122,10 @@ contract Campaign {
             return "Success";
         } else if (status == CampaignState.LIVE) {
             return "Live";
-        } else {
+        } else if (block.timestamp > campaignDeadline) {
             return "Ended";
+        } else {
+            return "Closed";
         }
     }
 
