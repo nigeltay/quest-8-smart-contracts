@@ -156,6 +156,6 @@ contract AccountManager {
 
     function deleteAccount(address _accountAddress) external {
         uint256 accountID = accountIDs[_accountAddress];
-        accounts[accountID].deleteAccount(_accountAddress);
+        accounts[accountID].deleteAccount(msg.sender);
     }
 }
