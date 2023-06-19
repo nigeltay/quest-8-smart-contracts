@@ -31,13 +31,15 @@ contract AccountManager {
     {
         _accountAddresses = new address[](accounts.length);
         for (uint256 i = 0; i < accounts.length; i++) {
-            _accountAddresses[i] = address(accounts[i]);
+            if (!accounts[i].isDeleted()) {
+                _accountAddresses[i] = address(accounts[i]);
+            }
         }
         return _accountAddresses;
     }
 
     function getAccountsData(
-        address[] calldata _accountList
+        address[] calldata _treasuryList
     )
         external
         view
@@ -45,22 +47,25 @@ contract AccountManager {
             string[] memory title,
             string[] memory description,
             address[] memory depositAddress,
-            string[] memory walletID
+            string[] memory walletID,
+            bool[] memory isDeleted
         )
     {
-        title = new string[](_accountList.length);
-        description = new string[](_accountList.length);
-        depositAddress = new address[](_accountList.length);
-        walletID = new string[](_accountList.length);
-        for (uint256 i = 0; i < _accountList.length; i++) {
-            uint256 accountID = accountIDs[_accountList[i]];
+        title = new string[](_treasuryList.length);
+        description = new string[](_treasuryList.length);
+        depositAddress = new address[](_treasuryList.length);
+        walletID = new string[](_treasuryList.length);
+        isDeleted = new bool[](_treasuryList.length);
+        for (uint256 i = 0; i < _treasuryList.length; i++) {
+            uint256 accountID = accountIDs[_treasuryList[i]];
             Account account = accounts[accountID];
             title[i] = account.title();
             description[i] = account.description();
             depositAddress[i] = account.depositAddress();
             walletID[i] = account.depositWalletID();
+            isDeleted[i] = account.isDeleted();
         }
-        return (title, description, depositAddress, walletID);
+        return (title, description, depositAddress, walletID, isDeleted);
     }
 
     function hasJoinedAccount(
@@ -147,5 +152,10 @@ contract AccountManager {
     {
         uint256 accountID = accountIDs[_accountAddress];
         return accounts[accountID].getProposalData(_proposalList);
+    }
+
+    function deleteAccount(address _accountAddress) external {
+        uint256 accountID = accountIDs[_accountAddress];
+        accounts[accountID].deleteAccount(_accountAddress);
     }
 }

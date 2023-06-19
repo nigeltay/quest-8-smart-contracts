@@ -13,6 +13,7 @@ contract Account {
     mapping(address => bool) public members;
     address public depositAddress;
     string public depositWalletID;
+    bool public isDeleted;
 
     constructor(
         string memory _title,
@@ -24,6 +25,7 @@ contract Account {
         description = _description;
         depositAddress = _depositAddress;
         depositWalletID = _walletID;
+        isDeleted = false;
     }
 
     function createWithdrawProposal(
@@ -34,6 +36,7 @@ contract Account {
         address _withdrawWallet
     ) external {
         require(_proposer != address(this));
+        require(!isDeleted);
         uint256 proposalID = proposalIDCounter;
         proposalIDCounter++;
         WithdrawProposal proposal = new WithdrawProposal(
@@ -133,5 +136,10 @@ contract Account {
             numberOfNoVotes,
             withdrawWallet
         );
+    }
+
+    function deleteAccount(address _userAddress) external {
+        require(members[_userAddress]);
+        isDeleted = true;
     }
 }
