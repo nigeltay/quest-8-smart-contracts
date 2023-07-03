@@ -92,7 +92,6 @@ contract Campaign {
         require(block.timestamp > campaignDeadline);
 
         USDc.transfer(proposer, USDc.balanceOf(address(this)));
-        contributions.push(-int(USDc.balanceOf(address(this))));
 
         status = CampaignState.CLOSED;
     }

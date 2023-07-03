@@ -35,7 +35,6 @@ contract Account {
         uint256 _withdrawAmount,
         address _withdrawWallet
     ) external {
-        require(_proposer != address(this));
         require(!isDeleted);
         uint256 proposalID = proposalIDCounter;
         proposalIDCounter++;
@@ -52,6 +51,7 @@ contract Account {
 
     function joinAccount(address _address) external {
         require(members[_address] == false);
+        require(!isDeleted);
         membersList.push(_address);
         members[_address] = true;
     }
@@ -65,6 +65,7 @@ contract Account {
         address _proposalAddress,
         bool _isVoteYes
     ) external returns (bool) {
+        require(!isDeleted);
         require(members[_voter] == true);
         uint256 proposalID = proposalIDs[_proposalAddress];
         return withdrawProposals[proposalID].vote(_voter, _isVoteYes);
@@ -140,6 +141,7 @@ contract Account {
 
     function deleteAccount(address _userAddress) external {
         require(members[_userAddress]);
+        require(!isDeleted);
         isDeleted = true;
     }
 }
