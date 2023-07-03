@@ -1,0 +1,292 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_title",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_sellerWallet",
+				"type": "address"
+			}
+		],
+		"name": "createProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllProducts",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "productAddresses",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_productAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address[]",
+				"name": "_orderAddresses",
+				"type": "address[]"
+			}
+		],
+		"name": "getOrdersData",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "payer",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "amountPayable",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "orderAmount",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "payableLeft",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOrdersForUser",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "productAddresses",
+				"type": "address[]"
+			},
+			{
+				"internalType": "address[]",
+				"name": "orderAddresses",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOrdersForUserWithPendingPayment",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "productAddresses",
+				"type": "address[]"
+			},
+			{
+				"internalType": "address[]",
+				"name": "orderAddresses",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_productAddress",
+				"type": "address"
+			}
+		],
+		"name": "getOrdersFromSellerProduct",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "orderAddresses",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_productAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_orderAddress",
+				"type": "address"
+			}
+		],
+		"name": "getPaymentHistory",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "_productAddresses",
+				"type": "address[]"
+			}
+		],
+		"name": "getProductInfo",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "seller",
+				"type": "address[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "title",
+				"type": "string[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "description",
+				"type": "string[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "price",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "address[]",
+				"name": "sellerWallet",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getProductsWithUserOrder",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "productAddresses",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getSellerProducts",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "productAddresses",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_productAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_orderQuantity",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "fullPayment",
+				"type": "bool"
+			}
+		],
+		"name": "placeOrderForProduct",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "productIDs",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "products",
+		"outputs": [
+			{
+				"internalType": "contract Product",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
